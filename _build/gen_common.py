@@ -3,11 +3,7 @@
 import json, pathlib, re
 import html as _html
 
-BASE = pathlib.Path(
-    "/Users/apostolospollalis/Library/CloudStorage/GoogleDrive-apostolos@clinicbrain.gr/"
-    "Shared drives/BRAIN GROUP/CLINICBRAIN/CLIENTS FORM/"
-    "2026-08-14 · Μαριλένα Τζαννετάτου - Ψυχολόγος MSc · Ψυχολόγος"
-)
+BASE = pathlib.Path(__file__).resolve().parent.parent
 WEB = BASE / "website"
 
 # ------------------------------------------------------------------ ταυτότητα
@@ -27,6 +23,8 @@ ZIP        = "15125"
 ZIP_PRETTY = "151 25"
 PHONE      = "6944813712"
 PHONE_P    = "6944 813712"
+PHONE2     = "2112187553"    # σταθερό
+PHONE2_P   = "211 21 87 553"
 EMAIL      = "mtzannetatou@gmail.com"
 FACEBOOK   = "https://www.facebook.com/ekpaidefsigoneon"
 GBP        = "https://share.google/fI01mm5aHw2yGOM5q"
@@ -160,7 +158,7 @@ def practice_ld():
         },
         "geo": {"@type": "GeoCoordinates", "latitude": LAT, "longitude": LON},
         "hasMap": MAPS,
-        "telephone": "+30" + PHONE,
+        "telephone": ["+30" + PHONE, "+30" + PHONE2],
         "email": EMAIL,
         "sameAs": [FACEBOOK, GBP],
         "areaServed": [{"@type": "City", "name": a} for a in AREAS[:-1]],
@@ -285,15 +283,16 @@ def hours_table():
             '<p class="cb-hours__foot">Οι συνεδρίες είναι κατόπιν ραντεβού, διά ζώσης ή διαδικτυακά.</p>' % body)
 
 
-def contact_card(depth):
+def contact_card(depth, landline=False):
     r = rel(depth)
+    tel2 = f'<a href="tel:+30{PHONE2}">{PHONE2_P}</a><br>\n' if landline else ""
     return f"""<div class="cb-contact-card">
 <div class="cb-contact-card__row">{icon('pin', 'w-5 h-5 cb-mint shrink-0')}
 <div><span class="cb-contact-card__k">Διεύθυνση</span>
 <a href="{MAPS}" target="_blank" rel="noopener noreferrer">{STREET}, {ZIP_PRETTY} {CITY}</a></div></div>
 <div class="cb-contact-card__row">{icon('phone', 'w-5 h-5 cb-mint shrink-0')}
 <div><span class="cb-contact-card__k">Τηλέφωνο</span>
-<a href="tel:+30{PHONE}">{PHONE_P}</a></div></div>
+{tel2}<a href="tel:+30{PHONE}">{PHONE_P}</a></div></div>
 <div class="cb-contact-card__row">{icon('mail', 'w-5 h-5 cb-mint shrink-0')}
 <div><span class="cb-contact-card__k">Email</span>
 <a href="mailto:{EMAIL}">{EMAIL}</a></div></div>
@@ -311,40 +310,19 @@ def access_note():
 
 
 def booking_embed():
-    """Θέση ενσωμάτωσης του ηλεκτρονικού ημερολογίου. Μέχρι να μπει, δείχνει
-    καθαρό placeholder με το τηλέφωνο ώστε η σελίδα να μη μοιάζει σπασμένη."""
+    """Κουτί ραντεβού: τηλέφωνα και email (δεν υπάρχει ηλεκτρονικό ημερολόγιο)."""
     return f"""<div class="cb-booking">
-<!-- ══════════════════════════════════════════════════════════════════════
-     CALENDLY · ΣΗΜΕΙΟ ΕΝΣΩΜΑΤΩΣΗΣ
-
-     Αντικαταστήστε ΟΛΟ το <div class="cb-booking__ph"> ... </div> παρακάτω
-     με το inline embed του Calendly:
-
-       <div class="calendly-inline-widget"
-            data-url="https://calendly.com/USERNAME/50min?hide_gdpr_banner=1&amp;primary_color=2f8a73"
-            style="min-width:320px;height:720px"></div>
-       <script src="https://assets.calendly.com/assets/external/widget.js" async></script>
-
-     Πριν τη δημοσίευση:
-       • Ρυθμίστε στο Calendly διάρκεια συνεδρίας {SESSION} λεπτά.
-       • Περάστε το ωράριο: Δευτέρα – Παρασκευή 09:00-21:00.
-       • Συνδέστε το ημερολόγιο {EMAIL} για να αποφεύγονται διπλοκρατήσεις.
-       • Το Calendly είναι εκτελών την επεξεργασία εκτός ΕΕ — αναφέρεται ήδη
-         στην Πολιτική Απορρήτου· μην αφαιρέσετε εκείνη την παράγραφο.
-       • Μην ζητάτε δεδομένα ψυχικής υγείας στη φόρμα κράτησης.
-     ══════════════════════════════════════════════════════════════════════ -->
 <div class="cb-booking__ph">
 {icon('calendar', 'cb-booking__ic')}
-<p class="cb-booking__t">Ηλεκτρονικό ημερολόγιο ραντεβού</p>
-<p class="cb-booking__d">Σε αυτό το σημείο θα ενσωματωθεί το σύστημα online κρατήσεων,
-ώστε να επιλέγετε μόνοι σας ημέρα και ώρα για την πρώτη σας συνεδρία.</p>
-<p class="cb-booking__d cb-booking__d--em">Μέχρι τότε, κλείστε ραντεβού τηλεφωνικά ή με μήνυμα:</p>
+<p class="cb-booking__t">Κλείστε ραντεβού</p>
+<p class="cb-booking__d">Μπορείτε να κλείσετε ραντεβού τηλεφωνικά, με μήνυμα ή e-mail:</p>
 <div class="cb-booking__actions">
+<a class="cb-btn" href="tel:+30{PHONE2}">{icon('phone','w-4 h-4')}<span>{PHONE2_P}</span></a>
 <a class="cb-btn" href="tel:+30{PHONE}">{icon('phone','w-4 h-4')}<span>{PHONE_P}</span></a>
 <a class="cb-btn cb-btn--ghost" href="mailto:{EMAIL}">{icon('mail','w-4 h-4')}<span>EMAIL</span></a>
 </div>
 </div>
-<p class="cb-booking__note">Η συνεδρία διαρκεί {SESSION} λεπτά. Αν βρίσκεστε σε κρίση ή σκέφτεστε να βλάψετε τον εαυτό σας,
+<p class="cb-booking__note">Αν βρίσκεστε σε κρίση ή σκέφτεστε να βλάψετε τον εαυτό σας,
 μην περιμένετε ραντεβού: καλέστε τη <a href="tel:1018">1018</a> (Γραμμή Παρέμβασης για την Αυτοκτονία, 24/7)
 ή το <a href="tel:112">112</a>.</p>
 </div>"""

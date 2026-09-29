@@ -32,7 +32,7 @@ PHOTO - DSCF2163.jpg
 | `ypiresies/ekpaidefsi-goneon-gordon.html` | εργαστήρι αποτελεσματικού γονέα / PET |
 | `psychologos-marousi.html` | τοπική σελίδα: πρόσβαση, ωράριο, περιοχές |
 | `syxnes-erotiseis.html` | 14 ερωτήσεις με FAQ schema |
-| `epikoinonia.html` | ραντεβού (Calendly), στοιχεία, χάρτης |
+| `epikoinonia.html` | ραντεβού (τηλέφωνο / email), στοιχεία, χάρτης |
 | `politiki-aporritou.html`, `oroi-xrisis.html`, `404.html` | — |
 
 ## Πλοήγηση
@@ -84,26 +84,9 @@ PHOTO - DSCF2163.jpg
    `https://www.mtzannetatou.gr`. Αν αλλάξει, αλλάξτε το `SITE_URL` στο
    `_build/gen_common.py` και τρέξτε `python3 _build/gen_pages.py`.
 
-2. **Calendly** — υπάρχει έτοιμη θέση ενσωμάτωσης σε **δύο** σημεία:
-   `index.html` (ενότητα «Ας κάνουμε το πρώτο βήμα») και `epikoinonia.html`.
-   Σε κάθε αρχείο, βρείτε το σχόλιο `CALENDLY · ΣΗΜΕΙΟ ΕΝΣΩΜΑΤΩΣΗΣ` και
-   αντικαταστήστε ολόκληρο το `<div class="cb-booking__ph"> … </div>` με:
-
-   ```html
-   <div class="calendly-inline-widget"
-        data-url="https://calendly.com/USERNAME/50min?hide_gdpr_banner=1&primary_color=2f8a73"
-        style="min-width:320px;height:720px"></div>
-   <script src="https://assets.calendly.com/assets/external/widget.js" async></script>
-   ```
-
-   Στο Calendly ρυθμίστε: διάρκεια **50 λεπτά**, ωράριο **Δευ–Παρ 09:00–21:00**
-   και σύνδεση του ημερολογίου `mtzannetatou@gmail.com` για αποφυγή
-   διπλοκρατήσεων.
-
-   > Το Calendly είναι εκτελών επεξεργασίας εκτός ΕΕ. Η σχετική παράγραφος
-   > υπάρχει ήδη στην Πολιτική Απορρήτου — **μην την αφαιρέσετε**.
-   > Μόνιμος κανόνας: **να μην ζητούνται δεδομένα ψυχικής υγείας** στη φόρμα
-   > κράτησης.
+2. **Ραντεβού.** Δεν υπάρχει ηλεκτρονικό ημερολόγιο (Calendly κ.λπ.)· τα ραντεβού
+   κλείνονται τηλεφωνικά, με μήνυμα ή email. Αν προστεθεί στο μέλλον, πρέπει να
+   προστεθεί και αντίστοιχη παράγραφος στην Πολιτική Απορρήτου.
 
 3. **SSL.** Μετά την εγκατάσταση πιστοποιητικού, οι κανόνες HTTPS + www στο
    `.htaccess` ενεργοποιούνται μόνοι τους. (Στο Vercel δεν χρειάζεται.)

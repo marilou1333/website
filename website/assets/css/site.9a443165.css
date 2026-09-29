@@ -1192,7 +1192,7 @@ img { height: auto; }
 .cb-cta-band__lede { font-weight: 300; color: rgba(246,247,245,.75); margin-top: .4rem; }
 .cb-cta-band__actions { display: flex; flex-wrap: wrap; gap: .9rem; }
 
-/* ---- online ραντεβού (Calendly) ---- */
+/* ---- κουτί ραντεβού ---- */
 .cb-booking { background: #fff; border: 1px solid rgba(23,32,30,.09); border-radius: 4px; padding: 1.5rem;
   box-shadow: 0 24px 60px -44px rgba(23,32,30,.5); }
 @media (min-width: 768px) { .cb-booking { padding: 2rem; } }
@@ -1208,7 +1208,6 @@ img { height: auto; }
   font-size: .78rem; font-weight: 300; line-height: 1.7; color: var(--cb-muted); }
 .cb-booking__note a { color: var(--cb-deep); font-weight: 500; }
 /* όταν μπει το πραγματικό embed, να μη «σπάει» το πλάτος σε κινητά */
-.cb-booking .calendly-inline-widget { min-width: 0 !important; width: 100%; }
 
 /* ---- footer ---- */
 .cb-footer { background: var(--cb-ink); color: rgba(246,247,245,.7); padding: 4.5rem 0 2rem;
