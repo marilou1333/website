@@ -27,6 +27,7 @@ PHONE2     = "2112187553"    # σταθερό
 PHONE2_P   = "211 21 87 553"
 EMAIL      = "mtzannetatou@gmail.com"
 FACEBOOK   = "https://www.facebook.com/ekpaidefsigoneon"
+FORMSPREE  = "https://formspree.io/f/xjyklywr"
 GBP        = "https://share.google/fI01mm5aHw2yGOM5q"
 MAPS       = GBP
 SESSION    = "50"          # λεπτά ανά συνεδρία
@@ -310,17 +311,55 @@ def access_note():
 
 
 def booking_embed():
-    """Κουτί ραντεβού: τηλέφωνα και email (δεν υπάρχει ηλεκτρονικό ημερολόγιο)."""
+    """Φόρμα αιτήματος ραντεβού (Formspree). Χωρίς JS γίνεται κανονικό POST·
+    με JS αποστέλλεται ασύγχρονα και το μήνυμα επιτυχίας εμφανίζεται επιτόπου."""
     return f"""<div class="cb-booking">
-<div class="cb-booking__ph">
-{icon('calendar', 'cb-booking__ic')}
+<form class="cb-form" id="forma" action="{FORMSPREE}" method="POST" data-formspree>
 <p class="cb-booking__t">Κλείστε ραντεβού</p>
-<p class="cb-booking__d">Μπορείτε να κλείσετε ραντεβού τηλεφωνικά, με μήνυμα ή e-mail:</p>
-<div class="cb-booking__actions">
-<a class="cb-btn" href="tel:+30{PHONE2}">{icon('phone','w-4 h-4')}<span>{PHONE2_P}</span></a>
-<a class="cb-btn" href="tel:+30{PHONE}">{icon('phone','w-4 h-4')}<span>{PHONE_P}</span></a>
-<a class="cb-btn cb-btn--ghost" href="mailto:{EMAIL}">{icon('mail','w-4 h-4')}<span>EMAIL</span></a>
+<p class="cb-booking__d">Συμπληρώστε τα στοιχεία σας και θα επικοινωνήσω μαζί σας για να ορίσουμε ραντεβού.</p>
+<input type="hidden" name="_subject" value="Νέο αίτημα ραντεβού από την ιστοσελίδα">
+<input type="hidden" name="_language" value="el">
+<div class="cb-form__hp" aria-hidden="true"><label>Μην συμπληρώσετε αυτό το πεδίο<input type="text" name="_gotcha" tabindex="-1" autocomplete="off"></label></div>
+<div class="cb-field">
+<label class="cb-field__l" for="f-name">Ονοματεπώνυμο <span class="cb-field__req" aria-hidden="true">*</span></label>
+<input class="cb-field__i" id="f-name" type="text" name="name" autocomplete="name" required maxlength="120"
+ aria-describedby="f-name-err">
+<p class="cb-field__err" id="f-name-err" hidden>Συμπληρώστε το ονοματεπώνυμό σας.</p>
 </div>
+<div class="cb-field">
+<label class="cb-field__l" for="f-phone">Τηλέφωνο <span class="cb-field__req" aria-hidden="true">*</span></label>
+<input class="cb-field__i" id="f-phone" type="tel" name="phone" autocomplete="tel" inputmode="tel" required
+ minlength="10" maxlength="20" aria-describedby="f-phone-err">
+<p class="cb-field__err" id="f-phone-err" hidden>Συμπληρώστε ένα έγκυρο τηλέφωνο (τουλάχιστον 10 ψηφία).</p>
+</div>
+<div class="cb-field">
+<label class="cb-field__l" for="f-email">Email <span class="cb-field__opt">(προαιρετικό)</span></label>
+<input class="cb-field__i" id="f-email" type="email" name="email" autocomplete="email" maxlength="160"
+ aria-describedby="f-email-err">
+<p class="cb-field__err" id="f-email-err" hidden>Η διεύθυνση email δεν φαίνεται σωστή.</p>
+</div>
+<div class="cb-field">
+<label class="cb-field__l" for="f-msg">Μήνυμα <span class="cb-field__opt">(προαιρετικό)</span></label>
+<textarea class="cb-field__i" id="f-msg" name="message" rows="4" maxlength="1500"
+ aria-describedby="f-msg-hint"></textarea>
+<p class="cb-field__hint" id="f-msg-hint">Π.χ. ποιες ώρες σας εξυπηρετούν. Δεν χρειάζεται να αναφέρετε λεπτομέρειες
+για το τι σας απασχολεί· αυτά τα συζητάμε στη συνεδρία.</p>
+</div>
+<button class="cb-btn cb-form__btn" type="submit"><span>ΑΠΟΣΤΟΛΗ</span><span class="cb-btn__arrow">&#8594;</span></button>
+<p class="cb-form__status" role="status" aria-live="polite"></p>
+<p class="cb-form__legal">Τα στοιχεία σας χρησιμοποιούνται μόνο για να επικοινωνήσω μαζί σας.
+Δείτε την <a href="politiki-aporritou.html">Πολιτική Απορρήτου</a>.</p>
+</form>
+<div class="cb-form__done" hidden tabindex="-1">
+{icon('calendar', 'cb-booking__ic')}
+<p class="cb-booking__t">Ευχαριστώ, το αίτημά σας στάλθηκε</p>
+<p class="cb-booking__d">Θα επικοινωνήσω μαζί σας το συντομότερο για να ορίσουμε ραντεβού.</p>
+</div>
+<div class="cb-booking__alt">
+<span>Ή καλέστε απευθείας:</span>
+<a href="tel:+30{PHONE2}">{icon('phone','w-4 h-4')}{PHONE2_P}</a>
+<a href="tel:+30{PHONE}">{icon('phone','w-4 h-4')}{PHONE_P}</a>
+<a href="mailto:{EMAIL}">{icon('mail','w-4 h-4')}{EMAIL}</a>
 </div>
 <p class="cb-booking__note">Αν βρίσκεστε σε κρίση ή σκέφτεστε να βλάψετε τον εαυτό σας,
 μην περιμένετε ραντεβού: καλέστε τη <a href="tel:1018">1018</a> (Γραμμή Παρέμβασης για την Αυτοκτονία, 24/7)

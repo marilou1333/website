@@ -640,7 +640,40 @@ img { height: auto; }
 .cb-booking__note { margin-top: 1.4rem; padding-top: 1.2rem; border-top: 1px solid rgba(23,32,30,.1);
   font-size: .78rem; font-weight: 300; line-height: 1.7; color: var(--cb-muted); }
 .cb-booking__note a { color: var(--cb-deep); font-weight: 500; }
-/* όταν μπει το πραγματικό embed, να μη «σπάει» το πλάτος σε κινητά */
+/* ---- φόρμα ραντεβού (Formspree) ---- */
+.cb-form { display: flex; flex-direction: column; gap: 1.1rem; }
+.cb-form .cb-booking__d { margin-top: -.5rem; }
+.cb-form__hp { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
+.cb-field { display: flex; flex-direction: column; gap: .4rem; }
+.cb-field__l { font-size: .74rem; font-weight: 500; letter-spacing: .12em; text-transform: uppercase; color: var(--cb-ink); }
+.cb-field__req { color: var(--cb-mint); }
+.cb-field__opt { font-weight: 300; letter-spacing: .04em; text-transform: none; color: var(--cb-muted); }
+.cb-field__i { width: 100%; font: inherit; font-size: 1rem; font-weight: 300; color: var(--cb-ink);
+  background: #fafbfa; border: 1px solid rgba(23,32,30,.18); border-radius: 3px; padding: .8rem .95rem;
+  transition: border-color .2s ease, background-color .2s ease, box-shadow .2s ease; }
+.cb-field__i:hover { border-color: rgba(23,32,30,.32); }
+.cb-field__i:focus { outline: none; background: #fff; border-color: var(--cb-mint);
+  box-shadow: 0 0 0 3px rgba(47,138,115,.16); }
+textarea.cb-field__i { resize: vertical; min-height: 7rem; line-height: 1.6; }
+.cb-field.is-invalid .cb-field__i { border-color: #b3261e; background: #fff; }
+.cb-field__err { font-size: .8rem; color: #b3261e; }
+.cb-field__hint { font-size: .78rem; font-weight: 300; line-height: 1.6; color: var(--cb-muted); }
+.cb-form__btn { align-self: flex-start; margin-top: .25rem; }
+.cb-form__btn[disabled] { opacity: .6; cursor: progress; }
+.cb-form__status { font-size: .88rem; line-height: 1.6; color: var(--cb-ink); }
+.cb-form__status:empty { display: none; }
+.cb-form__status.is-error { color: #b3261e; }
+.cb-form__legal { font-size: .76rem; font-weight: 300; line-height: 1.6; color: var(--cb-muted); }
+.cb-form__legal a { color: var(--cb-deep); font-weight: 500; text-decoration: underline; text-underline-offset: 2px; }
+.cb-form__done { text-align: center; display: flex; flex-direction: column; align-items: center; gap: .65rem;
+  padding: 2.5rem 1rem; }
+.cb-form__done:focus { outline: none; }
+.cb-booking__alt { display: flex; flex-wrap: wrap; align-items: center; gap: .5rem 1.25rem; margin-top: 1.5rem;
+  padding-top: 1.2rem; border-top: 1px solid rgba(23,32,30,.1); font-size: .85rem; color: var(--cb-muted); }
+.cb-booking__alt a { display: inline-flex; align-items: center; gap: .4rem; color: var(--cb-ink); font-weight: 500; }
+.cb-booking__alt a:hover { color: var(--cb-mint); }
+.cb-booking__alt svg { color: var(--cb-mint); }
+.cb-booking__alt + .cb-booking__note { border-top: 0; padding-top: 0; margin-top: 1rem; }
 
 /* ---- footer ---- */
 .cb-footer { background: var(--cb-ink); color: rgba(246,247,245,.7); padding: 4.5rem 0 2rem;

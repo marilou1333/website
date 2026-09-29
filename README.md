@@ -32,7 +32,7 @@ PHOTO - DSCF2163.jpg
 | `ypiresies/ekpaidefsi-goneon-gordon.html` | εργαστήρι αποτελεσματικού γονέα / PET |
 | `psychologos-marousi.html` | τοπική σελίδα: πρόσβαση, ωράριο, περιοχές |
 | `syxnes-erotiseis.html` | 14 ερωτήσεις με FAQ schema |
-| `epikoinonia.html` | ραντεβού (τηλέφωνο / email), στοιχεία, χάρτης |
+| `epikoinonia.html` | ραντεβού (φόρμα Formspree, τηλέφωνο, email), στοιχεία, χάρτης |
 | `politiki-aporritou.html`, `oroi-xrisis.html`, `404.html` | — |
 
 ## Πλοήγηση
@@ -84,9 +84,14 @@ PHOTO - DSCF2163.jpg
    `https://www.mtzannetatou.gr`. Αν αλλάξει, αλλάξτε το `SITE_URL` στο
    `_build/gen_common.py` και τρέξτε `python3 _build/gen_pages.py`.
 
-2. **Ραντεβού.** Δεν υπάρχει ηλεκτρονικό ημερολόγιο (Calendly κ.λπ.)· τα ραντεβού
-   κλείνονται τηλεφωνικά, με μήνυμα ή email. Αν προστεθεί στο μέλλον, πρέπει να
-   προστεθεί και αντίστοιχη παράγραφος στην Πολιτική Απορρήτου.
+2. **Ραντεβού.** Δεν υπάρχει ηλεκτρονικό ημερολόγιο (Calendly κ.λπ.). Στη σελίδα
+   επικοινωνίας (`#forma`) υπάρχει φόρμα αιτήματος ραντεβού που στέλνει στο Formspree
+   (`FORMSPREE` στο `_build/gen_common.py`, endpoint `https://formspree.io/f/xjyklywr`).
+   Υποχρεωτικά: ονοματεπώνυμο και τηλέφωνο· προαιρετικά: email και μήνυμα.
+   Με JS η αποστολή γίνεται επιτόπου (fetch)· χωρίς JS γίνεται κανονικό POST.
+   Στο Formspree: επιβεβαιώστε το email παραλήπτη του form και, αν θέλετε,
+   περιορίστε τα επιτρεπτά domains στο `mtzannetatou.gr`.
+   Το Formspree αναφέρεται στην Πολιτική Απορρήτου — **μην αφαιρέσετε** την παράγραφο.
 
 3. **SSL.** Μετά την εγκατάσταση πιστοποιητικού, οι κανόνες HTTPS + www στο
    `.htaccess` ενεργοποιούνται μόνοι τους. (Στο Vercel δεν χρειάζεται.)

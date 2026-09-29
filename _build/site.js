@@ -154,4 +154,58 @@
       b.classList.add(isOpen ? "is-open" : "is-closed");
     });
   }
+  /* ---------------------------------------------------------- φόρμα ραντεβού (Formspree) */
+  qa("form[data-formspree]").forEach(function (form) {
+    var box = form.parentNode;
+    var done = box.querySelector(".cb-form__done");
+    var status = form.querySelector(".cb-form__status");
+    var btn = form.querySelector('button[type="submit"]');
+    var fields = qa(".cb-field__i", form);
+    form.noValidate = true;   /* δικά μας μηνύματα σφάλματος στα ελληνικά */
+
+    function check(input) {
+      var wrap = input.closest(".cb-field");
+      var err = wrap && wrap.querySelector(".cb-field__err");
+      input.value = input.type === "textarea" ? input.value : input.value.trim();
+      var ok = input.checkValidity();
+      if (ok && input.type === "tel") {
+        var digits = input.value.replace(/\D/g, "").length;
+        ok = /^[+\d\s().-]+$/.test(input.value) && digits >= 10 && digits <= 15;
+      }
+      if (wrap) wrap.classList.toggle("is-invalid", !ok);
+      input.setAttribute("aria-invalid", ok ? "false" : "true");
+      if (err) err.hidden = ok;
+      return ok;
+    }
+    fields.forEach(function (f) {
+      f.addEventListener("blur", function () { if (f.value) check(f); });
+      f.addEventListener("input", function () {
+        if (f.closest(".cb-field").classList.contains("is-invalid")) check(f);
+      });
+    });
+
+    form.addEventListener("submit", function (e) {
+      e.preventDefault();
+      var firstBad = null;
+      fields.forEach(function (f) { if (!check(f) && !firstBad) firstBad = f; });
+      if (firstBad) { firstBad.focus(); return; }
+      if (!window.fetch || !window.FormData) { form.submit(); return; }
+      btn.disabled = true;
+      status.className = "cb-form__status";
+      status.textContent = "Αποστολή…";
+      fetch(form.action, { method: "POST", body: new FormData(form), headers: { Accept: "application/json" } })
+        .then(function (r) { return r.json().catch(function () { return {}; }).then(function (d) { return { ok: r.ok, d: d }; }); })
+        .then(function (res) {
+          if (!res.ok) throw res.d;
+          form.reset();
+          form.hidden = true;
+          if (done) { done.hidden = false; done.focus(); }
+        })
+        .catch(function () {
+          status.className = "cb-form__status is-error";
+          status.textContent = "Η αποστολή δεν ολοκληρώθηκε. Δοκιμάστε ξανά ή καλέστε στο 211 21 87 553.";
+        })
+        .then(function () { btn.disabled = false; });
+    });
+  });
 })();
